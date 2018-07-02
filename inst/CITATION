@@ -1,0 +1,13 @@
+citHeader("To use and cite EDA Package in publications use:")
+
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(
+ bibtype="Manual",
+ title="{EDA}: Energy Decomposition Analysis",
+ author="Yongze Song and Peng Wu",
+ year=year,
+ note=note,
+ url="https://CRAN.R-project.org/package=EDA")
+

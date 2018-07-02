@@ -2,31 +2,53 @@
 % Please edit documentation in R/LMDI.R
 \name{LMDI}
 \alias{LMDI}
+\alias{print.LMDI}
 \title{Log Mean Devisia Index method for energy decomposition analysis}
 \usage{
 LMDI(C0, CT, X0, XT)
+\method{print}{LMDI}(x, ...)
 }
 \arguments{
-\item{C0}{A data.frame}
+\item{C0}{A numeric vector or a data.frame of carbon emission or energy consumption 
+in the initial year.}
 
-\item{CT}{A data.frame}
+\item{CT}{A numeric vector or a data.frame of carbon emission or energy consumption 
+in the year T.}
 
-\item{X0}{A data.frame}
+\item{X0}{A numeric vector or a data.frame of an impact factor in the initial year.}
 
-\item{XT}{A data.frame}
+\item{XT}{A numeric vector or a data.frame of an impact factor in the year T.}
+
+\item{x}{A list of LMDI result.}
+
+\item{...}{Ignore}
 }
 \description{
 Log Mean Devisia Index method for energy decomposition analysis
 }
 \examples{
-data(CarbonEmission)
-carbon <- CarbonEmission$carbon
+library(EDA)
+data(carbon)
+data(factordata)
+## set parameters
 cdata <- carbon[,-c(1,2)]
-xdata <- CarbonEmission$xdata
 C0 <- cdata[1,]
 CT <- cdata[2,]
-X0 <- xdata[[1]][1,]
-XT <- xdata[[2]][2,]
-LMDI(C0, CT, X0, XT)
+X0 <- factordata[[2]][1,]
+XT <- factordata[[2]][2,]
+## run LMDI model
+ed1 <- LMDI(C0, CT, X0, XT)
+ed1
 
+}
+\references{
+Ang, B. W. (2005). The LMDI approach to decomposition 
+analysis: a practical guide. Energy policy, 33(7), 867-871.
+}
+\seealso{
+\code{\link{EDA}}
+}
+\author{
+Yongze Song \email{yongze.song@postgrad.curtin.edu.au}
+and Peng Wu \email{peng.wu@curtin.edu.au}.
 }

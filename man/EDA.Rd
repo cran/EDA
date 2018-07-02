@@ -2,40 +2,82 @@
 % Please edit documentation in R/EDA.R
 \name{EDA}
 \alias{EDA}
+\alias{print.EDA}
+\alias{plot.EDA}
 \title{Energy consumption analysis for calculating carbon emission changes}
 \usage{
-EDA(cdata, xdata, Year = Year, Category = Category, Factor = Factor,
-  Component = Component, method = "LMDI")
+EDA(cdata, factordata, Year = Year, Factor = Factor, 
+    Fuel = 1, Sector = 1, method = "LMDI")
+\method{print}{EDA}(x, ...)
+\method{plot}{EDA}(x, ...)
 }
 \arguments{
-\item{cdata}{A data.frame}
+\item{cdata}{A data.frame of annual carbon emission or energy consumption 
+data, which can include multiple Fuels stored by columns.}
 
-\item{xdata}{A list}
+\item{factordata}{A list of factors' data.frame.}
 
-\item{Year}{A numeric vector}
+\item{Year}{A numeric vector of year.}
 
-\item{Category}{A vector}
+\item{Factor}{A vector of factor names.}
 
-\item{Factor}{A vector}
+\item{Fuel}{A vector of fuel names.}
 
-\item{Component}{A vector}
+\item{Sector}{A vector of carbon emission or energy consumption 
+sector names or number. If only one sector of carbon emission or 
+energy consumption, set \code{Sector = 1}.}
 
-\item{method}{A character chosen from 
-"LMDI" or "Laspeyres" or "Paasche" or "Marshall-Edgeworth" or "Walsh"}
+\item{method}{A character of energy consumption analysis method's name. 
+One of "\code{\link{LMDI}}", "\code{Laspeyres}", "\code{Paasche}", 
+"\code{Marshall-Edgeworth}" or "\code{Walsh}".}
+
+\item{x}{A list of EDA result.}
+
+\item{...}{Ignore}
 }
 \description{
 Energy consumption analysis for calculating carbon emission changes
 }
 \examples{
-data(CarbonEmission)
-carbon <- CarbonEmission$carbon
+library(EDA)
+data(carbon)
+data(factordata)
+## set parameters
 cdata <- carbon[,-c(1,2)]
-xdata <- CarbonEmission$xdata
-Year <- carbon$year
-Category <- carbon$building
-Component <- colnames(carbon[,-c(1:2)])
-Factor <- c(1:length(xdata))
-EDA(cdata, xdata, Year = Year, Category = Category, Factor = Factor, 
-Component = Component, method = "LMDI")
+Year <- 2001:2005
+Sector <- c("b1", "b2", "b3")
+Fuel <- colnames(cdata)
+Factor <- names(factordata)
+## run EDA model
+eda1 <- EDA(cdata, factordata, Year = Year, Factor = Factor, 
+    Fuel = Fuel, Sector = Sector, method = "LMDI")
+eda1
+plot(eda1)
 
+}
+\references{
+Ang, B. W. (2005). The LMDI approach to decomposition 
+analysis: a practical guide. Energy policy, 33(7), 867-871.
+
+Marlay, R. C. (1984). Trends in industrial use of energy. 
+Science, 226, 1277-1284.
+
+Paasche, H. Uber die Preisentwicklung der letzten Jahre. 
+Jahrbiicher fur Nationalokonomie und Statistik, 23(1874), 168.
+
+Marshall, A. (1887). Remedies for fluctuations of 
+general prices.
+
+Edgeworth, F. Y. (1925). Papers relating to political economy.
+
+Walsh, C. M. (1921). The Problem of Estimation, a 
+Seventeenth-century Controversy and Its Bearing on Modern Statistical 
+Questions, Especially Index-numbers, by Correa Moylan Walsh.
+}
+\seealso{
+\code{\link{LMDI}}
+}
+\author{
+Yongze Song \email{yongze.song@postgrad.curtin.edu.au}
+and Peng Wu \email{peng.wu@curtin.edu.au}.
 }

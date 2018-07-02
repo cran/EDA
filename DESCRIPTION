@@ -1,8 +1,8 @@
 Package: EDA
 Type: Package
 Title: Energy Decomposition Analysis
-Date: 2018-01-10
-Version: 1.0.1
+Date: 2018-07-02
+Version: 1.2
 Authors@R: c(person("Yongze Song", email = "yongze.song@postgrad.curtin.edu.au",
                   comment = c(ORCID = "0000-0003-3420-9622"), 
                   role = c("aut", "cre")),
@@ -18,9 +18,12 @@ Imports: ggplot2, stats
 Depends: R (>= 3.3.0)
 License: GPL-2
 RoxygenNote: 6.0.1
+LazyData: true
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-01-14 00:10:16 UTC; zack
-Author: Yongze Song [aut, cre] (0000-0003-3420-9622),
+Packaged: 2018-07-02 12:08:17 UTC; zack
+Author: Yongze Song [aut, cre] (<https://orcid.org/0000-0003-3420-9622>),
   Peng Wu [aut]
 Repository: CRAN
-Date/Publication: 2018-01-15 12:31:24 UTC
+Date/Publication: 2018-07-02 12:20:06 UTC
