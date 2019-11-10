@@ -1,6 +1,6 @@
 #' Energy consumption analysis for calculating carbon emission changes
 #'
-#' @usage EDA(cdata, factordata, Year = Year, Factor = Factor, 
+#' @usage EDA(cdata, factordata, years = years, Factor = Factor, 
 #'     Fuel = 1, Sector = 1, method = "LMDI")
 #' \method{print}{EDA}(x, ...)
 #' \method{plot}{EDA}(x, ...)
@@ -10,7 +10,7 @@
 #' @param cdata A data.frame of annual carbon emission or energy consumption 
 #' data, which can include multiple Fuels stored by columns.
 #' @param factordata A list of factors' data.frame.
-#' @param Year A numeric vector of year.
+#' @param years A numeric vector of year.
 #' @param Sector A vector of carbon emission or energy consumption 
 #' sector names or number. If only one sector of carbon emission or 
 #' energy consumption, set \code{Sector = 1}. 
@@ -50,20 +50,21 @@
 #' data(factordata)
 #' ## set parameters
 #' cdata <- carbon[,-c(1,2)]
-#' Year <- 2001:2005
+#' years <- carbon$year
 #' Sector <- c("b1", "b2", "b3")
 #' Fuel <- colnames(cdata)
 #' Factor <- names(factordata)
 #' ## run EDA model
-#' eda1 <- EDA(cdata, factordata, Year = Year, Factor = Factor, 
+#' eda1 <- EDA(cdata, factordata, years = years, Factor = Factor, 
 #'     Fuel = Fuel, Sector = Sector, method = "LMDI")
 #' eda1
 #' plot(eda1)
 #' 
 #' @export
 
-EDA <- function(cdata, factordata, Year = Year, Factor = Factor, 
+EDA <- function(cdata, factordata, years = years, Factor = Factor, 
                 Fuel = 1, Sector = 1, method = "LMDI"){
+  Year <- sort(unique(years))
   Dx <-  expand.grid(Year = Year[-1], Sector = Sector, Factor = Factor)
   Dx$Sector <- factor(Dx$Sector, as.character(Sector))
   Dx$Factor <- factor(Dx$Factor, as.character(Factor))
@@ -76,11 +77,11 @@ EDA <- function(cdata, factordata, Year = Year, Factor = Factor,
   
   if (method == "LMDI"){
     for (u in 1:(length(Year)-1)){
-      C0 <- cdata[which(Year == Year[u]),]
-      CT <- cdata[which(Year == Year[u+1]),]
+      C0 <- cdata[which(years == Year[u]),]
+      CT <- cdata[which(years == Year[u+1]),]
       for (v in LF){
-        X0 <- factordata[[v]][which(Year == Year[u]),]
-        XT <- factordata[[v]][which(Year == Year[u+1]),]
+        X0 <- factordata[[v]][which(years == Year[u]),]
+        XT <- factordata[[v]][which(years == Year[u+1]),]
         Dx[which(Dx$Year == Year[u+1] & Dx$Factor == Factor[v]),-c(1:3)] <- LMDI(C0, CT, X0, XT)$Dx
       }
     }
@@ -88,8 +89,8 @@ EDA <- function(cdata, factordata, Year = Year, Factor = Factor,
     for (u in 1:(length(Year)-1)){
       X0 <- list(); XT <- list()
       for (v in LF){
-        X0[[v]] <- factordata[[v]][which(Year == Year[u]),]
-        XT[[v]] <- factordata[[v]][which(Year == Year[u+1]),]
+        X0[[v]] <- factordata[[v]][which(years == Year[u]),]
+        XT[[v]] <- factordata[[v]][which(years == Year[u+1]),]
       }
       
       for (w in LF){
@@ -104,8 +105,8 @@ EDA <- function(cdata, factordata, Year = Year, Factor = Factor,
     for (u in 1:(length(Year)-1)){
       X0 <- list(); XT <- list()
       for (v in LF){
-        X0[[v]] <- factordata[[v]][which(Year == Year[u]),]
-        XT[[v]] <- factordata[[v]][which(Year == Year[u+1]),]
+        X0[[v]] <- factordata[[v]][which(years == Year[u]),]
+        XT[[v]] <- factordata[[v]][which(years == Year[u+1]),]
       }
       
       for (w in LF){
@@ -120,8 +121,8 @@ EDA <- function(cdata, factordata, Year = Year, Factor = Factor,
     for (u in 1:(length(Year)-1)){
       X0 <- list(); XT <- list()
       for (v in LF){
-        X0[[v]] <- factordata[[v]][which(Year == Year[u]),]
-        XT[[v]] <- factordata[[v]][which(Year == Year[u+1]),]
+        X0[[v]] <- factordata[[v]][which(years == Year[u]),]
+        XT[[v]] <- factordata[[v]][which(years == Year[u+1]),]
       }
       
       for (w in LF){
@@ -136,8 +137,8 @@ EDA <- function(cdata, factordata, Year = Year, Factor = Factor,
     for (u in 1:(length(Year)-1)){
       X0 <- list(); XT <- list()
       for (v in LF){
-        X0[[v]] <- factordata[[v]][which(Year == Year[u]),]
-        XT[[v]] <- factordata[[v]][which(Year == Year[u+1]),]
+        X0[[v]] <- factordata[[v]][which(years == Year[u]),]
+        XT[[v]] <- factordata[[v]][which(years == Year[u+1]),]
       }
       
       for (w in LF){

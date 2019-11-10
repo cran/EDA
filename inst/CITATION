@@ -4,6 +4,17 @@ year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
 
 bibentry(
+  bibtype="Manual",
+  title="Analyzing the influence factors of the carbon emissions from China's building and construction industry from 2000 to 2015",
+  author="Wu, Peng and Song, Yongze and Zhu, Jianbo and Chang, Ruidong",
+  journal="Journal of Cleaner Production",
+  volume="221",
+  pages="552--566",
+  year="2019",
+  publisher="Elsevier",
+  url="https://www.sciencedirect.com/science/article/pii/S0959652619305992")
+
+bibentry(
  bibtype="Manual",
  title="{EDA}: Energy Decomposition Analysis",
  author="Yongze Song and Peng Wu",

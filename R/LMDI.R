@@ -39,7 +39,29 @@
 #' @export
 
 LMDI <- function(C0, CT, X0, XT){
-  Dx <- (CT - C0)/(log(CT) - log(C0)) * log(XT/X0)
+  name.fuel <- colnames(C0)
+  n.col <- ncol(C0); n.row <- nrow(C0)
+  
+  C0 <- unlist(C0); CT <- unlist(CT)
+  X0 <- unlist(X0); XT <- unlist(XT)
+  
+  C0 <- as.numeric(C0); CT <- as.numeric(CT)
+  X0 <- as.numeric(X0); XT <- as.numeric(XT)
+
+  logx <- function(x){
+    ifelse(x == 0, 0, log(x))
+  }
+  dividex <- function(x){
+    ifelse(x == 0, 0, 1/x)
+  }
+  
+  Dx <- (CT - C0) * dividex(logx(CT) - logx(C0)) * (logx(XT) - logx(X0))
+  
+  Dx <- as.data.frame(matrix(Dx, n.row, n.col))
+  colnames(Dx) <- name.fuel
+  
+  # Dx <- (CT - C0)/(log(CT) - log(C0)) * (log(XT/X0))
+
   Dx.Fuel <- colSums(Dx, na.rm = TRUE)
   Dx.sum <- sum(Dx, na.rm = TRUE)
   result <- list("Dx"=Dx, "Dx.Fuel"=Dx.Fuel, "Dx.sum"=Dx.sum)

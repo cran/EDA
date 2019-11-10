@@ -6,7 +6,7 @@
 \alias{plot.EDA}
 \title{Energy consumption analysis for calculating carbon emission changes}
 \usage{
-EDA(cdata, factordata, Year = Year, Factor = Factor, 
+EDA(cdata, factordata, years = years, Factor = Factor, 
     Fuel = 1, Sector = 1, method = "LMDI")
 \method{print}{EDA}(x, ...)
 \method{plot}{EDA}(x, ...)
@@ -17,7 +17,7 @@ data, which can include multiple Fuels stored by columns.}
 
 \item{factordata}{A list of factors' data.frame.}
 
-\item{Year}{A numeric vector of year.}
+\item{years}{A numeric vector of year.}
 
 \item{Factor}{A vector of factor names.}
 
@@ -44,12 +44,12 @@ data(carbon)
 data(factordata)
 ## set parameters
 cdata <- carbon[,-c(1,2)]
-Year <- 2001:2005
+years <- carbon$year
 Sector <- c("b1", "b2", "b3")
 Fuel <- colnames(cdata)
 Factor <- names(factordata)
 ## run EDA model
-eda1 <- EDA(cdata, factordata, Year = Year, Factor = Factor, 
+eda1 <- EDA(cdata, factordata, years = years, Factor = Factor, 
     Fuel = Fuel, Sector = Sector, method = "LMDI")
 eda1
 plot(eda1)

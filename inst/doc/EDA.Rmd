@@ -16,7 +16,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-Energy decomposition analysis is used for measuring contributions of components and factors on energy or carbon emission changes ([Ang 2005][2], [Marlay 1984][3], [Liu et al. 2003][4]). 
+```
+Recommended Citations:
+
+[1] Wu, P., Song, Y., Zhu, J., & Chang, R. (2019). Analyzing the influence factors of the carbon emissions from China's building and construction industry from 2000 to 2015. Journal of Cleaner Production, 221, 552-566.
+
+[2] Song, Y. (2018). EDA: Energy Decomposition Analysis. R package, https://CRAN.R-project.org/package=EDA.
+
+* Please cite both the package and the scientific publication when authors use the package. 
+```
+
+
+
+Energy decomposition analysis is used for measuring contributions of components and factors on energy or carbon emission changes ([Ang 2005][2], [Wu 2019][5], [Marlay 1984][3], [Liu et al. 2003][4]). 
 
 **EDA** package consists of five energy consumption analysis methods: Log Mean Devisia Index (LMDI) method ([Ang 2005][2]), Laspeyres method, Paasche method (Paasche 1874), Marshall-Edgeworth method (Marshall 1887, Edgeworth 1925) and Walsh method (Walsh 1921). The formulas of five methods are listed in Table 1. 
 
@@ -73,7 +85,7 @@ head(carbon)[1:3,]
 cdata <- carbon[,-c(1,2)]
 edata <- energy[,-c(1,2)]
 Sector <- c("b1", "b2", "b3")
-xdata1 <- cdata/edata
+xdata1 <- cdata/(edata + 1e-9)
 ## Factor 2: Energy-mix effect (EM)
 Esum <- aggregate(edata, by=list(energy[,1]), FUN=sum, na.rm = TRUE)[,-1]
 Esum <- Esum[rep(seq_len(nrow(Esum)), length(Sector)), ]
@@ -117,12 +129,12 @@ data(carbon)
 data(factordata)
 ## set parameters
 cdata <- carbon[,-c(1,2)]
-Year <- 2001:2005
+years <- carbon$year
 Sector <- c("b1", "b2", "b3")
 Fuel <- colnames(cdata)
 Factor <- names(factordata)
 ## run EDA model
-eda1 <- EDA(cdata, factordata, Year = Year, Factor = Factor, 
+eda1 <- EDA(cdata, factordata, years = years, Factor = Factor, 
     Fuel = Fuel, Sector = Sector, method = "LMDI")
 eda1
 plot(eda1)
@@ -130,7 +142,9 @@ plot(eda1)
 
 ## Reference
 
-Song Y (2018). EDA: Energy Decomposition Analysis. R package, https://CRAN.R-project.org/package=EDA.
+Wu, P., Song, Y., Zhu, J., & Chang, R. (2019). Analyzing the influence factors of the carbon emissions from China's building and construction industry from 2000 to 2015. Journal of Cleaner Production, 221, 552-566.
+
+Song, Y. (2018). EDA: Energy Decomposition Analysis. R package, https://CRAN.R-project.org/package=EDA.
 
 Ang, B. W. (2005). The LMDI approach to decomposition analysis: a practical guide. Energy policy, 33(7), 867-871. doi: [10.1016/j.enpol.2003.10.010][2].
 
@@ -158,4 +172,5 @@ Curtin University, Australia
 [2]: https://www.sciencedirect.com/science/article/pii/S0301421503003136
 [3]: http://science.sciencemag.org/content/226/4680/1277
 [4]: https://www.sciencedirect.com/science/article/pii/S0306261903000436#BIB2
+[5]: https://www.sciencedirect.com/science/article/pii/S0959652619305992
 

@@ -18,7 +18,7 @@ head(carbon)[1:3,]
 #  cdata <- carbon[,-c(1,2)]
 #  edata <- energy[,-c(1,2)]
 #  Sector <- c("b1", "b2", "b3")
-#  xdata1 <- cdata/edata
+#  xdata1 <- cdata/(edata + 1e-9)
 #  ## Factor 2: Energy-mix effect (EM)
 #  Esum <- aggregate(edata, by=list(energy[,1]), FUN=sum, na.rm = TRUE)[,-1]
 #  Esum <- Esum[rep(seq_len(nrow(Esum)), length(Sector)), ]
@@ -54,12 +54,12 @@ data(carbon)
 data(factordata)
 ## set parameters
 cdata <- carbon[,-c(1,2)]
-Year <- 2001:2005
+years <- carbon$year
 Sector <- c("b1", "b2", "b3")
 Fuel <- colnames(cdata)
 Factor <- names(factordata)
 ## run EDA model
-eda1 <- EDA(cdata, factordata, Year = Year, Factor = Factor, 
+eda1 <- EDA(cdata, factordata, years = years, Factor = Factor, 
     Fuel = Fuel, Sector = Sector, method = "LMDI")
 eda1
 plot(eda1)
